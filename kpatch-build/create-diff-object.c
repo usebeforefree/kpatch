@@ -2412,6 +2412,11 @@ static int s390_expolines_group_size(struct kpatch_elf *kelf, int offset)
 	return 4;
 }
 
+static int s390_stack_protector_loc_group_size(struct kpatch_elf *kelf, int offset)
+{
+	return 8;
+}
+
 /*
  * The rela groups in the .fixup section vary in size.  The beginning of each
  * .fixup rela group is referenced by the __ex_table section. To find the size
@@ -2737,6 +2742,11 @@ static struct special_section special_sections[] = {
 		.name		= ".s390_indirect_jump",
 		.arch		= S390,
 		.group_size	= s390_expolines_group_size,
+	},
+	{
+		.name		= "__stack_protector_loc",
+		.arch		= S390,
+		.group_size	= s390_stack_protector_loc_group_size,
 	},
 	{},
 };

@@ -1,6 +1,6 @@
 diff -Nupr src.orig/fs/proc/array.c src/fs/proc/array.c
---- src.orig/fs/proc/array.c	2026-05-21 10:55:45.071225080 -0400
-+++ src/fs/proc/array.c	2026-05-21 10:56:49.795579782 -0400
+--- src.orig/fs/proc/array.c	2026-10-12 13:20:11.637255592 +0200
++++ src/fs/proc/array.c	2026-10-12 13:20:46.349033768 +0200
 @@ -395,12 +395,19 @@ static inline void task_seccomp(struct s
  	seq_putc(m, '\n');
  }
@@ -22,9 +22,9 @@ diff -Nupr src.orig/fs/proc/array.c src/fs/proc/array.c
  
  static void task_cpus_allowed(struct seq_file *m, struct task_struct *task)
 diff -Nupr src.orig/kernel/exit.c src/kernel/exit.c
---- src.orig/kernel/exit.c	2026-05-21 10:55:41.732534420 -0400
-+++ src/kernel/exit.c	2026-05-21 10:56:49.795979658 -0400
-@@ -877,6 +877,7 @@ static void synchronize_group_exit(struc
+--- src.orig/kernel/exit.c	2026-10-12 13:20:12.012002263 +0200
++++ src/kernel/exit.c	2026-10-12 13:20:46.350620536 +0200
+@@ -883,6 +883,7 @@ static void synchronize_group_exit(struc
  	spin_unlock_irq(&sighand->siglock);
  }
  
@@ -32,7 +32,7 @@ diff -Nupr src.orig/kernel/exit.c src/kernel/exit.c
  void __noreturn do_exit(long code)
  {
  	struct task_struct *tsk = current;
-@@ -954,6 +955,8 @@ void __noreturn do_exit(long code)
+@@ -960,6 +961,8 @@ void __noreturn do_exit(long code)
  	sched_autogroup_exit_task(tsk);
  	cgroup_exit(tsk);
  
@@ -42,9 +42,9 @@ diff -Nupr src.orig/kernel/exit.c src/kernel/exit.c
  	 * FIXME: do that only when needed, using sched_exit tracepoint
  	 */
 diff -Nupr src.orig/kernel/fork.c src/kernel/fork.c
---- src.orig/kernel/fork.c	2026-05-21 10:55:41.732534420 -0400
-+++ src/kernel/fork.c	2026-05-21 10:56:49.796517014 -0400
-@@ -2768,6 +2768,7 @@ struct task_struct *create_io_thread(int
+--- src.orig/kernel/fork.c	2026-10-12 13:20:12.012002263 +0200
++++ src/kernel/fork.c	2026-10-12 13:20:46.352624587 +0200
+@@ -2554,6 +2554,7 @@ struct task_struct *create_io_thread(int
   *
   * args->exit_signal is expected to be checked for sanity by the caller.
   */
@@ -52,7 +52,7 @@ diff -Nupr src.orig/kernel/fork.c src/kernel/fork.c
  pid_t kernel_clone(struct kernel_clone_args *args)
  {
  	u64 clone_flags = args->flags;
-@@ -2776,6 +2777,8 @@ pid_t kernel_clone(struct kernel_clone_a
+@@ -2562,6 +2563,8 @@ pid_t kernel_clone(struct kernel_clone_a
  	struct task_struct *p;
  	int trace = 0;
  	pid_t nr;
@@ -61,7 +61,7 @@ diff -Nupr src.orig/kernel/fork.c src/kernel/fork.c
  
  	/*
  	 * For legacy clone() calls, CLONE_PIDFD uses the parent_tid argument
-@@ -2815,6 +2818,11 @@ pid_t kernel_clone(struct kernel_clone_a
+@@ -2601,6 +2604,11 @@ pid_t kernel_clone(struct kernel_clone_a
  	if (IS_ERR(p))
  		return PTR_ERR(p);
  

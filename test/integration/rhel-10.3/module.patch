@@ -14,8 +14,8 @@ This tests several things related to the patching of modules:
 Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
 
 diff -Nupr src.orig/fs/xfs/xfs_stats.c src/fs/xfs/xfs_stats.c
---- src.orig/fs/xfs/xfs_stats.c	2026-05-21 10:55:44.928483517 -0400
-+++ src/fs/xfs/xfs_stats.c	2026-05-21 10:56:33.623875191 -0400
+--- src.orig/fs/xfs/xfs_stats.c	2026-10-12 13:20:11.663900814 +0200
++++ src/fs/xfs/xfs_stats.c	2026-10-12 13:20:37.492137340 +0200
 @@ -16,6 +16,8 @@ static int counter_val(struct xfsstats _
  	return val;
  }
@@ -61,8 +61,8 @@ diff -Nupr src.orig/fs/xfs/xfs_stats.c src/fs/xfs/xfs_stats.c
  }
  
 diff -Nupr src.orig/net/netlink/af_netlink.c src/net/netlink/af_netlink.c
---- src.orig/net/netlink/af_netlink.c	2026-05-21 10:55:49.954991476 -0400
-+++ src/net/netlink/af_netlink.c	2026-05-21 10:56:33.624290593 -0400
+--- src.orig/net/netlink/af_netlink.c	2026-10-12 13:20:12.127130865 +0200
++++ src/net/netlink/af_netlink.c	2026-10-12 13:20:37.493505080 +0200
 @@ -2964,4 +2964,10 @@ panic:
  	panic("netlink_init: Cannot allocate nl_table\n");
  }

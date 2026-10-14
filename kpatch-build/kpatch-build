@@ -993,6 +993,11 @@ if [[ "$ARCHVERSION" =~ - ]]; then
 	KREL="${KREL%.*}"
 fi
 
+FLAVOR=""
+if [[ "$ARCHVERSION" =~ \+(.*)$ ]]; then
+	FLAVOR="-${BASH_REMATCH[1]//_/-}"
+fi
+
 [[ "$ARCHVERSION" =~ .el7a. ]] && ALT="-alt"
 
 [[ -z "$TARGETS" ]] && TARGETS="vmlinux modules"
@@ -1108,7 +1113,7 @@ else
 		elif [[ "$DISTRO" = photon ]]; then
 			[[ -z "$CONFIGFILE" ]] && CONFIGFILE="$KERNEL_SRCDIR"/.config
 		else
-			[[ -z "$CONFIGFILE" ]] && CONFIGFILE="$KERNEL_SRCDIR/configs/kernel$ALT-$KVER-$ARCH.config"
+			[[ -z "$CONFIGFILE" ]] && CONFIGFILE="$KERNEL_SRCDIR/configs/kernel$ALT-$KVER-$ARCH$FLAVOR.config"
 		fi
 		if [[ ! "$DISTRO" = photon ]]; then
 			(cd "$KERNEL_SRCDIR" && make mrproper 2>&1 | logger) || die

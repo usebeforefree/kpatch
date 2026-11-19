@@ -1400,8 +1400,12 @@ KBUILD_MODPOST_WARN=1 make "${ARCH_MAKEVARS[@]}" "${MAKEVARS[@]}" "-j$CPUS" $TAR
 grep "undefined reference" "$LOGFILE" | sed -r "s/^.*\`(.*)'$/\\1/" \
 	>"${TEMPDIR}"/undefined_references
 
-# WARNING: "symbol" [path/to/module.ko] undefined!
-grep "undefined!" "$LOGFILE" | cut -d\" -f2 >>"${TEMPDIR}"/undefined_references
+# WARNING: "symbol" [path/to/module.ko] undefined!			(kernels before d900723d)
+# WARNING: modpost: path/to/module.ko: symbol 'symbol' undefined!	(kernels after d900723d)
+grep "undefined!" "$LOGFILE" | \
+	sed -nr -e 's/^.*"([^"]+)" \[.*\] undefined!$/\1/p' \
+	        -e "s/^.*symbol '([^']+)' undefined!$/\1/p" \
+	>>"${TEMPDIR}"/undefined_references
 
 if [[ ! -e "$TEMPDIR/changed_objs" ]]; then
 	die "no changed objects found"
